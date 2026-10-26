@@ -206,6 +206,12 @@ p { margin: 0; }
 }
 .hero .eyebrow { color: var(--on-dark-soft); }
 .hero h1 { font-size: clamp(38px, 5.2vw, 68px); line-height: 1.08; text-wrap: balance; }
+
+/* The David McCullough quote at the top of the hero */
+.hero-quote { margin: 0; display: flex; flex-direction: column; gap: 12px; max-width: 32em; }
+.hero-quote p { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55; color: #EDE3CC; text-wrap: pretty; }
+.hero-quote cite { font-style: normal; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--on-dark-soft); }
+.hero-quote cite::before { content: "— "; }
 .hero-intro { font-size: 20px; color: #EDE3CC; max-width: 34em; }
 .hero-aside { font-size: 18px; color: var(--on-dark-soft); max-width: 34em; }
 .hero-photo { position: relative; min-height: 640px; overflow: hidden; }
