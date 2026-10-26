@@ -126,7 +126,7 @@ const TOPICS = [
     intro: 'Conquistadors, castaways, treasure fleets and one very persistent mapping mistake.',
     photo: '',                               // add the Potosí balcony photo here, e.g. 'images/potosi.jpg'
     photoAlt: 'Jacob on a balcony above the colonial town of Potosí',
-    photoPlaceholder: true,                  // shows a "photo to add" box until "photo" is filled in. Set to false to hide it.
+    photoPlaceholder: false,                 // true = shows a "photo to add" box until "photo" is filled in
     talks: [
       {
         id: 'conquest-of-mexico',
