@@ -353,6 +353,64 @@ p { margin: 0; }
 
 
 /* ---------------------------------------------------------------------
+   11b. TESTIMONIALS (the slideshow of quotes on the home page)
+   --------------------------------------------------------------------- */
+.testimonials { padding-top: 0; }
+.testimonials .container {
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(56px, 7vw, 96px);
+}
+.carousel { width: 100%; max-width: 50em; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+
+/* All the quotes sit on top of each other; only the active one is visible.
+   This keeps the section the same height, so the page doesn't jump. */
+.slides { display: grid; width: 100%; }
+.slide {
+  grid-area: 1 / 1;
+  margin: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.slide.is-active { opacity: 1; visibility: visible; }
+.slide blockquote { margin: 0; }
+.slide p { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 2.2vw, 27px); line-height: 1.5; text-wrap: pretty; }
+.slide figcaption { font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--forest-label); }
+.slide figcaption::before { content: "— "; }
+
+/* Arrows, dots and pause button */
+.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.carousel-button {
+  width: 44px; height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 50%;
+  cursor: pointer;
+}
+.carousel-button:hover { background: var(--paper); }
+.carousel-pause { margin-left: 10px; }
+.carousel-pause .icon-play { display: none; }
+.carousel.is-paused .carousel-pause .icon-play { display: block; }
+.carousel.is-paused .carousel-pause .icon-pause { display: none; }
+
+.carousel-dots { display: flex; }
+.carousel-dot {
+  width: 28px; height: 44px;              /* big enough to tap */
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; padding: 0; cursor: pointer;
+}
+.carousel-dot span { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--forest); }
+.carousel-dot[aria-current="true"] span { background: var(--forest); }
+
+/* People who've asked their device for less motion get no fading */
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: none; }
+}
+
+
+/* ---------------------------------------------------------------------
    12. FOOTER
    --------------------------------------------------------------------- */
 .site-footer { background: var(--ink); color: #EDE3CC; padding: 56px 0 36px; }

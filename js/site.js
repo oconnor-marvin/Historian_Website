@@ -300,6 +300,98 @@ function buildTalkPage() {
 
 
 /* ---------------------------------------------------------------------
+   6. HOME PAGE: TESTIMONIALS SLIDESHOW
+   The quotes themselves are written in index.html (section 5b).
+   To change how long each quote stays up, change SECONDS_PER_QUOTE.
+   --------------------------------------------------------------------- */
+const SECONDS_PER_QUOTE = 10;
+
+function setupCarousel() {
+  const carousel = document.querySelector('.carousel');
+  if (!carousel) return;
+  const slides = Array.from(carousel.querySelectorAll('.slide'));
+  const slideBox = carousel.querySelector('.slides');
+  const dotBox = carousel.querySelector('.carousel-dots');
+  const pauseButton = carousel.querySelector('.carousel-pause');
+  if (slides.length < 2) { carousel.querySelector('.carousel-controls').hidden = true; return; }
+
+  let current = Math.max(0, slides.findIndex(function (s) { return s.classList.contains('is-active'); }));
+  let timer = null;
+  let pausedByUser = false;
+  // If someone's device is set to "reduce motion", don't move by itself.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) pausedByUser = true;
+
+  // Make one dot per quote
+  const dots = slides.map(function (slide, i) {
+    slide.setAttribute('aria-label', (i + 1) + ' of ' + slides.length);
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', 'Show quote ' + (i + 1));
+    dot.innerHTML = '<span></span>';
+    dot.addEventListener('click', function () { show(i); restart(); });
+    dotBox.appendChild(dot);
+    return dot;
+  });
+
+  function show(i) {
+    current = (i + slides.length) % slides.length;
+    slides.forEach(function (s, n) {
+      s.classList.toggle('is-active', n === current);
+      s.setAttribute('aria-hidden', n === current ? 'false' : 'true');
+    });
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === current ? 'true' : 'false'); });
+  }
+  function start() {
+    stop();
+    if (pausedByUser) return;
+    timer = setInterval(function () { show(current + 1); }, SECONDS_PER_QUOTE * 1000);
+    slideBox.setAttribute('aria-live', 'off');
+  }
+  function stop() {
+    if (timer) clearInterval(timer);
+    timer = null;
+    slideBox.setAttribute('aria-live', 'polite');
+  }
+  function restart() { if (!pausedByUser) start(); }
+  function updatePauseButton() {
+    carousel.classList.toggle('is-paused', pausedByUser);
+    pauseButton.setAttribute('aria-label', pausedByUser ? 'Play the quotes' : 'Pause the quotes');
+  }
+
+  carousel.querySelector('.carousel-prev').addEventListener('click', function () { show(current - 1); restart(); });
+  carousel.querySelector('.carousel-next').addEventListener('click', function () { show(current + 1); restart(); });
+  pauseButton.addEventListener('click', function () {
+    pausedByUser = !pausedByUser;
+    updatePauseButton();
+    if (pausedByUser) stop(); else start();
+  });
+
+  // Hold still while someone is pointing at it or using the keyboard inside it
+  carousel.addEventListener('mouseenter', stop);
+  carousel.addEventListener('mouseleave', restart);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', function (e) { if (!carousel.contains(e.relatedTarget)) restart(); });
+
+  // Swipe left/right on phones
+  let touchX = null;
+  slideBox.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; stop(); }, { passive: true });
+  slideBox.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) show(dx < 0 ? current + 1 : current - 1);
+    touchX = null;
+    restart();
+  });
+
+  show(current);
+  updatePauseButton();
+  start();
+}
+
+
+/* ---------------------------------------------------------------------
    RUN EVERYTHING once the page has loaded.
    Each function quietly does nothing on pages it doesn't belong to.
    --------------------------------------------------------------------- */
@@ -309,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
   buildFeatured();
   buildTalksPage();
   buildTalkPage();
+  setupCarousel();
   // Keeps the © year in the footer up to date automatically
   document.querySelectorAll('.this-year').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 });
