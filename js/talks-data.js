@@ -253,7 +253,7 @@ const TOPICS = [
     id: 'british-isles',
     name: 'The British Isles',
     colour: '#5B4632',
-    intro: 'Home turf. Castles, kings, and how one island ended up as four countries.',
+    intro: 'Home turf. Castles, kings, and how the UK ended up as four countries in one.',
     talks: [
       { id: 'the-white-ship',           title: 'The White Ship',              comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
       { id: 'age-of-castles-and-kings', title: 'The Age of Castles and Kings', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] }
