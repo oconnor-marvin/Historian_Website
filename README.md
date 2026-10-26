@@ -22,10 +22,11 @@ images/thumbnails/    put talk thumbnails here (1280 × 720 JPGs work best)
 | I want to... | Open this file | What to do |
 |---|---|---|
 | Add a new talk | `js/talks-data.js` | Copy one talk block `{ ... },`, paste it, change the details |
+| Put a talk on sale | `js/talks-data.js` | Change `comingSoon: true` to `comingSoon: false` and add its Gumroad link and length |
 | Add a Gumroad link | `js/talks-data.js` | Paste the product link between the quotes after `gumroad:` |
 | Add a trailer | `js/talks-data.js` | Paste the YouTube/Vimeo link after `trailer:` |
 | Add a thumbnail | `images/thumbnails/` then `js/talks-data.js` | Upload the picture, then write its path after `thumbnail:` e.g. `'images/thumbnails/potosi.jpg'` |
-| Add the Potosí photo | `images/` then `js/talks-data.js` | Upload it as `potosi.jpg`, then set `photo: 'images/potosi.jpg'` in the Spain topic |
+| Add the Potosí photo | `images/` then `js/talks-data.js` | Upload it as `potosi.jpg`, then set `photo: 'images/potosi.jpg'` in the Spanish Empire topic |
 | Change the 3 talks on the home page | `js/talks-data.js` | Edit `FEATURED_TALKS` at the bottom |
 | Update the calendar | `js/calendar-data.js` | Edit, add or delete sailing blocks |
 | Change any other wording | `index.html` or `talks.html` | Find the words and type over them |

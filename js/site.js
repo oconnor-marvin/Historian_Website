@@ -61,7 +61,21 @@ function thumbnailHtml(item, topic, kicker, extraClass) {
     ? '<img src="' + safe(item.thumbnail) + '" alt="" loading="lazy">'
     : '<span class="thumb-kicker">' + safe(kicker) + '</span>' +
       '<span class="thumb-title">' + safe(item.title) + '</span>';
-  return '<div class="thumb ' + (extraClass || '') + '" style="background-color:' + safe(topic.colour) + '">' + picture + '</div>';
+  // Talks marked comingSoon: true get "Coming Soon" written on the thumbnail
+  const soon = item.comingSoon ? '<span class="thumb-soon">Coming Soon</span>' : '';
+  return '<div class="thumb ' + (extraClass || '') + '" style="background-color:' + safe(topic.colour) + '">' + soon + picture + '</div>';
+}
+
+// The small grey line under a tile: "Coming Soon", or length and price.
+// Bits that are empty are simply left out.
+function metaText(item, priceSuffix) {
+  if (item.comingSoon) return 'Coming Soon';
+  return [item.length, item.price ? item.price + (priceSuffix || '') : ''].filter(Boolean).join(' · ');
+}
+
+// The optional one-line description under a tile (left out if empty)
+function lineHtml(item) {
+  return item.line ? '<span class="tile-line">' + safe(item.line) + '</span>' : '';
 }
 
 // One clickable talk "tile" (thumbnail + title + one line + price).
@@ -71,21 +85,22 @@ function talkTileHtml(talk, topic) {
       thumbnailHtml(talk, topic, talk.part || topic.name) +
       '<div class="tile-text">' +
         '<span class="tile-title">' + safe(talk.title) + '</span>' +
-        '<span class="tile-line">' + safe(talk.line) + '</span>' +
-        '<span class="tile-meta">' + safe(talk.length) + ' · ' + safe(talk.price) + '</span>' +
+        lineHtml(talk) +
+        '<span class="tile-meta">' + safe(metaText(talk)) + '</span>' +
       '</div>' +
     '</a>';
 }
 
 // The tile for a bundle (looks like a little stack of cards).
 function bundleTileHtml(bundle, topic) {
+  const meta = bundle.comingSoon ? 'Coming Soon' : bundle.price + ' · save ' + bundle.saving;
   return '' +
     '<a class="tile" href="talk.html?id=' + encodeURIComponent(bundle.id) + '">' +
       thumbnailHtml(bundle, topic, 'The series · ' + bundle.includes.length + ' talks', 'thumb-stack') +
       '<div class="tile-text">' +
         '<span class="tile-title">' + safe(bundle.title) + '</span>' +
-        '<span class="tile-line">' + safe(bundle.line) + '</span>' +
-        '<span class="tile-meta tile-saving">' + safe(bundle.price) + ' · save ' + safe(bundle.saving) + '</span>' +
+        lineHtml(bundle) +
+        '<span class="tile-meta tile-saving">' + safe(meta) + '</span>' +
       '</div>' +
     '</a>';
 }
@@ -182,11 +197,14 @@ function buildTalksPage() {
 
   sectionBox.innerHTML = TOPICS.map(function (topic) {
     const count = topic.talks.length + (topic.talks.length === 1 ? ' talk' : ' talks');
-    const prices = topic.bundle ? ' · $15 each, or ' + topic.bundle.price + ' for the series' : ' · $15 each';
+    // Show prices next to the count only once at least one talk is on sale
+    const onSale = topic.talks.some(function (t) { return !t.comingSoon; });
+    const prices = !onSale ? ' · Coming Soon'
+      : topic.bundle ? ' · $15 each, or ' + topic.bundle.price + ' for the series' : ' · $15 each';
 
-    // The big Spain section has a photo next to its intro.
+    // A topic can have a photo next to its intro (see "photo" in talks-data.js)
     let introHtml;
-    if (topic.photo || topic.id === 'spain') {
+    if (topic.photo || topic.photoPlaceholder) {
       const photo = topic.photo
         ? '<figure class="topic-photo"><img src="' + safe(topic.photo) + '" alt="' + safe(topic.photoAlt) + '" loading="lazy"></figure>'
         : '<div class="photo-placeholder">Photo to add: Jacob on a balcony above Potosí<br>(see "photo" in js/talks-data.js)</div>';
@@ -257,7 +275,7 @@ function buildTalkPage() {
     bundleNote = '<p class="bundle-note">Also available as part of <a href="talk.html?id=' + encodeURIComponent(topic.bundle.id) + '">' + safe(topic.bundle.title) + '</a>, ' + safe(topic.bundle.price) + ' for all ' + topic.bundle.includes.length + '.</p>';
   }
 
-  const buyBox = '' +
+  let buyBox = '' +
     '<aside class="buy-box" aria-label="Buy">' +
       '<div class="price-block">' + priceBlock + '</div>' +
       // Gumroad's script (loaded at the bottom of talk.html) turns this
@@ -267,9 +285,20 @@ function buildTalkPage() {
       bundleNote +
     '</aside>';
 
-  // "What it covers" paragraphs (falls back to the one-line description)
-  const paragraphs = (item.about && item.about.length) ? item.about : [item.line];
-  const about = '<section class="talk-about"><h2>What it covers</h2>' +
+  // Not on sale yet: the box says "Coming Soon" instead of a price and Buy button
+  if (item.comingSoon) {
+    buyBox = '' +
+      '<aside class="buy-box" aria-label="Availability">' +
+        '<strong class="coming-soon">Coming Soon</strong>' +
+        '<p class="buy-note">' + (isBundle ? 'This series isn’t' : 'This talk isn’t') + ' available yet. Sign up to my newsletter and I’ll let you know when it is.</p>' +
+        '<a class="button button-wide" href="https://jacobmarvin.substack.com/subscribe" target="_blank" rel="noopener">Sign up to the newsletter</a>' +
+      '</aside>';
+  }
+
+  // "What it covers" paragraphs (falls back to the one-line description,
+  // and is left out completely if there's neither)
+  const paragraphs = (item.about && item.about.length) ? item.about : (item.line ? [item.line] : []);
+  const about = !paragraphs.length ? '' : '<section class="talk-about"><h2>What it covers</h2>' +
     paragraphs.map(function (p) { return '<p>' + safe(p) + '</p>'; }).join('') + '</section>';
 
   // For bundles: list the talks inside it
@@ -285,8 +314,8 @@ function buildTalkPage() {
             '<div class="tile-text">' +
               '<span class="eyebrow">' + safe(t.item.part || '') + '</span>' +
               '<span class="tile-title">' + safe(t.item.title) + '</span>' +
-              '<span class="tile-line">' + safe(t.item.line) + '</span>' +
-              '<span class="tile-meta">' + safe(t.item.length) + ' · ' + safe(t.item.price) + ' on its own</span>' +
+              lineHtml(t.item) +
+              '<span class="tile-meta">' + safe(metaText(t.item, ' on its own')) + '</span>' +
             '</div>' +
           '</a>';
       }).join('') + '</section>';

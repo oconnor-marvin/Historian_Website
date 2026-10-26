@@ -7,105 +7,168 @@
    page for a new talk.
 
    HOW IT'S ORGANISED
-   The list is split into TOPICS (Spain, Panama, Vikings...). Each topic
-   has its own list of TALKS, in the order they should appear.
+   The list is split into TOPICS (South America, the Vikings...). Each
+   topic has its own list of TALKS, in the order they should appear.
 
    RULES THAT KEEP IT WORKING (the computer is fussy about these):
    1. Every piece of text goes inside quote marks:  'like this'
    2. If your text contains an apostrophe, use double quotes instead:
-          "Hadrian's Wall"      (not 'Hadrian's Wall', which breaks)
+          "Cape Horn: The Sailors' Graveyard"
    3. Every line inside { } ends with a comma, and so does every } that
       has another { after it.
    4. Each talk needs its own "id": short, lower case, words joined by
       dashes, no spaces, never used twice. It becomes the web address:
-          talk.html?id=french-go-first
+          talk.html?id=the-endurance
    5. If you break something, the Talks page will look empty. Undo your
       last change and look for a missing quote mark or comma.
 
    WHAT EACH TALK CAN HAVE
-     id         short unique name (see rule 4)                 REQUIRED
-     title      the talk's title                               REQUIRED
-     line       one short sentence shown under the thumbnail   REQUIRED
-     part       optional, e.g. 'Part 1' for a series
-     length     e.g. '52 min'
-     price      e.g. '$15'
-     gumroad    the link to the Gumroad product page, e.g.
-                'https://jacobmarvin.gumroad.com/l/french-go-first'
-     trailer    the YouTube or Vimeo link to the trailer. A normal
-                link works, e.g. 'https://youtu.be/abc123' or
-                'https://vimeo.com/123456'. Leave it '' (empty) if there's
-                no trailer yet; the page will show the thumbnail instead.
-     thumbnail  a picture in the images/thumbnails folder, e.g.
-                'images/thumbnails/french-go-first.jpg'.
-                Leave it '' and a coloured panel with the title is used.
-                Best size: 1280 × 720 pixels (16:9), JPG.
-     about      the 2–3 paragraphs on the talk's own page. Each paragraph
-                is its own piece of text inside the [ ] brackets,
-                separated by commas.
-
-   Talk titles below are WORKING TITLES. Replace them with the real ones.
+     id          short unique name (see rule 4)                REQUIRED
+     title       the talk's title                              REQUIRED
+     comingSoon  true  = shows "Coming Soon" and hides the Buy button.
+                 When a talk is ready to sell, change it to  false
+                 (and fill in gumroad, length and so on).
+     part        optional, e.g. 'Part 1' for a series
+     line        optional one short sentence shown under the thumbnail
+     length      e.g. '50 min'
+     price       e.g. '$15'
+     gumroad     the link to the Gumroad product page, e.g.
+                 'https://jacobmarvin.gumroad.com/l/the-endurance'
+     trailer     the YouTube or Vimeo link to the trailer. A normal
+                 link works, e.g. 'https://youtu.be/abc123'. Leave it ''
+                 (empty) if there's no trailer yet.
+     thumbnail   a picture in the images/thumbnails folder, e.g.
+                 'images/thumbnails/the-endurance.jpg'. Leave it '' and
+                 a coloured panel with the title is used instead.
+                 Best size: 1280 × 720 pixels (16:9), JPG.
+     about       the paragraphs on the talk's own page ("What it
+                 covers"). Each paragraph is its own piece of text inside
+                 the [ ] brackets, separated by commas.
    ===================================================================== */
 
 const TOPICS = [
 
   /* -------------------------------------------------------------------
-     SPAIN AND THE SPANISH EMPIRE
+     SOUTH AMERICA AND THE FAR SOUTH
      ------------------------------------------------------------------- */
   {
-    id: 'spain',                                   // used for the topic button: talks.html#spain
-    name: 'Spain and the Spanish Empire',
-    colour: '#8E3E22',                             // colour of thumbnails that have no picture yet
-    intro: 'The biggest shelf in the library, because it was the biggest empire in the world for a while. Silver, saints, conquistadors and an astonishing amount of paperwork.',
-    photo: '',                                     // add the Potosí balcony photo here, e.g. 'images/potosi.jpg'
-    photoAlt: 'Jacob on a balcony above the colonial town of Potosí',
+    id: 'south-america',                   // used for the topic button: talks.html#south-america
+    name: 'South America and the Far South',
+    colour: '#24392D',                     // colour of thumbnails that have no picture yet
+    intro: "Antarctica, Patagonia and the bottom of the world, plus the people who made a home there, or tried to.",
     talks: [
       {
-        id: 'isabella-ferdinand-1492',
-        title: 'Isabella, Ferdinand and 1492',
-        line: 'Granada falls, Columbus sails, and nothing is ever quite the same.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'encounters-tierra-del-fuego',
+        title: 'Encounters in Tierra del Fuego',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Tierra del Fuego, the “Land of Fire”, where European explorers and missionaries met the native peoples of the far south, leading to some remarkable encounters at the very end of the world."]
       },
       {
-        id: 'cortes-tenochtitlan',
-        title: 'Cortés and Tenochtitlan',
-        line: 'A few hundred Spaniards, and the allies who rarely get the credit.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'cape-horn',
+        title: "Cape Horn: The Sailors' Graveyard",
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Into the storm-lashed waters of Cape Horn, long known as the “sailors’ graveyard”. Why did this passage become both legend and nightmare for generations of seafarers?"]
       },
       {
-        id: 'pizarro-inca',
-        title: 'Pizarro and the Inca',
-        line: 'An empire fresh from civil war meets the worst possible visitors.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'the-endurance',
+        title: 'The Endurance',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The saga of Sir Ernest Shackleton and Endurance: shipwreck, ice, and one of the greatest feats of leadership and survival in Antarctic history."]
       },
       {
-        id: 'potosi',
-        title: 'Potosí: The Mountain That Eats Men',
-        line: 'The silver that paid for an empire, and who dug it out.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'falklands-shipwreck',
+        title: 'Shipwreck and Survival in the Falklands',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["A tale of shipwreck, mutiny and survival in the Falklands. Lesser known, but an extraordinary story of endurance at sea."]
       },
       {
-        id: 'manila-galleons',
-        title: 'The Manila Galleons',
-        line: 'Silver goes west, silk comes east, and Acapulco does very nicely.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'welsh-in-patagonia',
+        title: 'The Welsh in Patagonia',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The unlikely story of how a group of Welsh settlers built a new homeland on the windswept plains of Patagonia: a tale of language, survival and identity at the edge of the world."]
       },
       {
-        id: 'armada-spanish-side',
-        title: 'The Armada, From the Spanish Side',
-        line: 'We English tell this one a certain way. Here is the other way.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'gauchos',
+        title: 'Gauchos: The Cowboys of the River Plate',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The story of the gauchos, Argentina’s cowboys: their lives on the Pampas, their part in independence, and their lasting place in South American identity."]
+      },
+      {
+        id: 'san-martin',
+        title: 'San Martín: Liberator of the Andes',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The life of General José de San Martín, Argentina’s national hero, whose daring campaigns across the Andes changed the course of South America."]
+      },
+      {
+        id: 'tordesillas-brazil',
+        title: 'Tordesillas: The History of Brazil',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["In 1494 the Treaty of Tordesillas divided the “New World” between Spain and Portugal. How that line on a map shaped two colonial empires, and the history of Brazil."]
+      }
+    ]
+  },
+
+  /* -------------------------------------------------------------------
+     THE SPANISH EMPIRE IN THE AMERICAS
+     ------------------------------------------------------------------- */
+  {
+    id: 'spanish-empire',
+    name: 'The Spanish Empire in the Americas',
+    colour: '#8E3E22',
+    intro: 'Conquistadors, castaways, treasure fleets and one very persistent mapping mistake.',
+    photo: '',                               // add the Potosí balcony photo here, e.g. 'images/potosi.jpg'
+    photoAlt: 'Jacob on a balcony above the colonial town of Potosí',
+    photoPlaceholder: true,                  // shows a "photo to add" box until "photo" is filled in. Set to false to hide it.
+    talks: [
+      {
+        id: 'conquest-of-mexico',
+        title: 'The Conquest of Mexico',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The fall of the Aztec Empire. How Hernán Cortés and a small band of conquistadors, driven by gold and held up by Indigenous alliances, brought about a collision of cultures that reshaped the Americas. A story of ambition, betrayal and legacy."]
+      },
+      {
+        id: 'conquest-of-the-incas',
+        title: 'The Conquest of the Incas',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The downfall of the Inca Empire, from Pizarro’s arrival to the final resistance. How a small band of conquistadors toppled a civilisation through ambition and betrayal, and how the Inca fought back."]
+      },
+      {
+        id: 'rebel-conquistador',
+        title: 'The Rebel Conquistador',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Vasco Núñez de Balboa, the first European to see the Pacific from the Americas. His trek across the isthmus, the founding of Tierra Firme, and how his carefully crafted legend shaped the history of Panama and the Age of Discovery."]
+      },
+      {
+        id: 'wanderer-of-the-new-world',
+        title: 'Wanderer of the New World',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The odyssey of Cabeza de Vaca, a conquistador turned castaway who walked across an unmapped continent. From shipwreck to revered healer, his survival among Indigenous peoples is one of history’s most astonishing tales."]
+      },
+      {
+        id: 'california-island',
+        title: 'When California Was an Island',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["For centuries, maps showed California as an island. The myths and folklore behind one of history’s most enduring geographical errors, and how it shaped the exploration of Baja California and the Pacific coast."]
+      },
+      {
+        id: 'spanish-treasure-fleets',
+        title: 'Spanish Treasure Fleets',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Spain’s treasure fleets: armadas laden with the gold and silver that paid for an empire. Storms, pirates, shipwrecks and daring heists on the most valuable sea route in the world."]
       }
     ]
   },
@@ -116,101 +179,71 @@ const TOPICS = [
   {
     id: 'panama',
     name: 'The Panama Canal',
-    colour: '#24392D',
-    intro: 'A series of three. Watch them in order, or buy the set and save yourself ten dollars and a decision.',
-    photo: '',
-    photoAlt: '',
+    colour: '#3F4A3C',
+    intro: 'A series of three. Watch them in order, or get the set.',
     talks: [
       {
-        id: 'french-go-first',
+        id: 'panama-french-attempt',
         part: 'Part 1',
-        title: 'The French Go First',
-        line: 'A national hero, a sea-level canal, and a great deal of mud.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: [
-          'In 1881 the man who had just built the Suez Canal arrived in Panama to do it again. Ferdinand de Lesseps was a national hero, a superb salesman and, crucially, not an engineer. He wanted a canal at sea level, like Suez. Panama had other ideas.',
-          'This talk is about what happened next: the jungle, the rain, the Chagres River in flood, and diseases nobody yet understood. Something like twenty thousand people died. Most were labourers from the Caribbean, and most of their names were never written down.',
-          "Then there's the money. Hundreds of thousands of ordinary French savers bought in, the company collapsed in 1889, and the scandal that followed dragged in politicians, newspapers and, briefly, Gustave Eiffel. It's a story about ambition, and about what happens when nobody is allowed to say the plan won't work."
-        ]
+        title: 'The French Attempt to Build a Canal in Panama',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["France’s tragic attempt to carve a canal through Panama. A grand vision that captivated the world, then collapsed under engineering problems, financial scandal and a devastating loss of life. Ambition meets an unforgiving jungle."]
       },
       {
-        id: 'mosquitoes-money-revolution',
+        id: 'panama-usa-control',
         part: 'Part 2',
-        title: 'Mosquitoes, Money and a Revolution',
-        line: 'Yellow fever, a very convenient independence, and Roosevelt.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        title: 'How the USA Gained Control of the Canal',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["How Theodore Roosevelt’s ambition secured the canal and Panamanian independence. The political manoeuvres behind a moment that shifted global trade and American power in the Western Hemisphere."]
       },
       {
-        id: 'big-ditch',
+        id: 'panama-forging-the-canal',
         part: 'Part 3',
-        title: 'The Big Ditch',
-        line: 'Fifty miles, a man-made lake, three sets of locks, and the people who built them.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        title: 'Forging the Canal',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The American effort to finish the job. From groundbreaking engineering to the fight against tropical disease, the story of how the Atlantic and Pacific were finally joined."]
       }
     ],
 
     /* THE BUNDLE. A topic can have one bundle (or none: just leave this
        part out). "includes" lists the ids of the talks in the bundle.
        Every talk listed there automatically gets the line
-       "Also available as part of the Panama Canal Series, $35". */
+       "Also available as part of The Panama Canal Series". */
     bundle: {
       id: 'panama-series',
       title: 'The Panama Canal Series',
-      line: "All three talks for $35. Bought one by one, they'd be $45.",
+      comingSoon: true,
+      line: 'All three Panama Canal talks together.',
       price: '$35',
       fullPrice: '$45',
       saving: '$10',
-      length: '3 talks · [X] hours',
+      length: '3 talks',
       gumroad: '', trailer: '', thumbnail: '',
-      includes: ['french-go-first', 'mosquitoes-money-revolution', 'big-ditch'],
+      includes: ['panama-french-attempt', 'panama-usa-control', 'panama-forging-the-canal'],
       about: [
-        "The Panama Canal took two attempts, two countries, one revolution and tens of thousands of lives. It's one of the great engineering stories of the modern world, and far too big for one evening, so I split it into three.",
-        "Part 1 is the French attempt: de Lesseps, the sea-level dream and the collapse. Part 2 is the messy bit in between: mosquitoes, money, and Panama's remarkably convenient independence in 1903. Part 3 is the build itself: the locks, Gatún Lake, and the people who actually did the digging.",
-        "If you're about to sail through it, watch them before you go. You'll spend the whole transit pointing at things."
+        "The Panama Canal took two attempts, two countries, one revolution and tens of thousands of lives. It’s one of the great engineering stories of the modern world, and far too big for one evening, so I split it into three.",
+        "Part 1 is the French attempt: de Lesseps, the sea-level dream and the collapse. Part 2 is how the United States took over, and Panama’s remarkably convenient independence in 1903. Part 3 is the build itself, and the people who actually did the digging.",
+        "If you’re about to sail through it, watch them before you go. You’ll spend the whole transit pointing at things."
       ]
     }
   },
 
   /* -------------------------------------------------------------------
-     THE VIKINGS
+     THE VIKINGS AND THE NORTH SEA
      ------------------------------------------------------------------- */
   {
     id: 'vikings',
-    name: 'The Vikings',
-    colour: '#3F4A3C',
-    intro: 'Less horned helmets, more trade routes. Still a fair amount of raiding, to be honest.',
-    photo: '',
-    photoAlt: '',
+    name: 'The Vikings and the North Sea',
+    colour: '#4A4E5A',
+    intro: 'Fewer horned helmets, more trade routes, kings and kingdoms. Still a fair amount of raiding, to be honest.',
     talks: [
-      {
-        id: 'lindisfarne-793',
-        title: 'Lindisfarne, 793',
-        line: 'The raid that gave the Vikings their reputation.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
-      },
-      {
-        id: 'vikings-went-east',
-        title: 'The Vikings Who Went East',
-        line: 'Down the rivers to Constantinople, and a job guarding the emperor.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
-      },
-      {
-        id: 'greenland-vinland',
-        title: 'Greenland and Vinland',
-        line: 'Farms at the edge of the world, and a short visit to America.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
-      }
+      { id: 'viking-myths',          title: 'Myths about the Vikings',          comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
+      { id: 'viking-atlantic-world', title: 'The Atlantic World of the Vikings', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
+      { id: 'north-sea-empire',      title: 'The North Sea Empire',             comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
+      { id: 'danish-empire',         title: 'The Danish Empire',                comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] }
     ]
   },
 
@@ -221,70 +254,130 @@ const TOPICS = [
     id: 'british-isles',
     name: 'The British Isles',
     colour: '#5B4632',
-    intro: 'Home turf. Stones, walls, invasions, and the occasional king who should have stayed in bed.',
-    photo: '',
-    photoAlt: '',
+    intro: 'Home turf. Castles, kings, and how one island ended up as four countries.',
+    talks: [
+      { id: 'the-white-ship',           title: 'The White Ship',              comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
+      { id: 'age-of-castles-and-kings', title: 'The Age of Castles and Kings', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] }
+    ]
+  },
+
+  /* -------------------------------------------------------------------
+     PIRATES, TRADE AND THE OPEN SEA
+     ------------------------------------------------------------------- */
+  {
+    id: 'pirates-and-trade',
+    name: 'Pirates, Trade and the Open Sea',
+    colour: '#2F4A56',
+    intro: 'Pirates, merchants, whalers and the occasional disappearance. Most of the modern world was built at sea.',
     talks: [
       {
-        id: 'who-built-stonehenge',
-        title: 'Who Built Stonehenge?',
-        line: 'And how, and why, and what they had for dinner afterwards.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'tales-of-the-atlantic',
+        title: 'Tales of the Atlantic',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The Atlantic’s hidden past, from Viking explorers to the lost colony of Roanoke. The triumphs, tragedies and legends of those who braved its waters, some of whom never came back."]
+      },
+      { id: 'golden-age-of-piracy', title: 'The Golden Age of Piracy', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
+      {
+        id: 'the-pirate-round',
+        title: 'The Pirate Round',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The Golden Age of Piracy, when corruption turned New York and Bermuda into pirate safe havens. Following the “Pirate Round” across the globe with the rogues who chased wealth and glory."]
       },
       {
-        id: 'hadrians-wall',
-        title: "Hadrian's Wall",
-        line: 'Seventy-odd miles of frontier, and the letters the soldiers left behind.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'kosher-corsairs',
+        title: 'Kosher Corsairs: The Inquisition at Sea',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The hidden world of Jewish pirates. Seeking survival, and sometimes revenge, during the diaspora, these mariners fought the Inquisition at sea and left a remarkable legacy."]
       },
       {
-        id: '1066-and-after',
-        title: '1066 and Everything After',
-        line: 'Three claimants, two battles, one very long tapestry.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'trading-companies',
+        title: 'How Trading Companies Shaped the World',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["From the sixteenth to the nineteenth century, trading companies built monopolies across the globe through commerce and conquest. How they changed the world, and gave rise to an economic system that still echoes today."]
+      },
+      {
+        id: 'age-of-whaling',
+        title: 'The Age of Whaling',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The rise of American whaling, when “iron men in wooden boats” risked everything for oil. From New England’s golden age to disasters at sea, and how the trade fuelled the Industrial Revolution."]
       }
     ]
   },
 
   /* -------------------------------------------------------------------
-     THE BRONZE AGE COLLAPSE
+     SPAIN AND THE MEDITERRANEAN
      ------------------------------------------------------------------- */
   {
-    id: 'bronze-age',
-    name: 'The Bronze Age Collapse',
+    id: 'mediterranean',
+    name: 'Spain and the Mediterranean',
     colour: '#6B5424',
-    intro: 'Around 1200 BC, the connected world of the eastern Mediterranean came apart. We are still arguing about why.',
-    photo: '',
-    photoAlt: '',
+    intro: 'Romans, Moors, knights and the ancient Greek world.',
     talks: [
       {
-        id: 'everything-fell-apart',
-        title: 'When Everything Fell Apart',
-        line: 'Palaces burn, trade stops, and nobody writes it down.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'hispania',
+        title: "Hispania: Rome's Iberian Frontier",
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Roman Spain: a land of conquest and cultural fusion. From the ruins of Tarraco to the clashes with Iberian tribes, how Spain became Rome’s richest province, and the roads and engineering that still shape it today."]
       },
       {
-        id: 'sea-peoples',
-        title: 'Who Were the Sea Peoples?',
-        line: 'The usual suspects. Probably guilty of something, but not of everything.',
-        length: '[XX] min', price: '$15',
-        gumroad: '', trailer: '', thumbnail: '',
-        about: []
+        id: 'al-andalus',
+        title: 'Al-Andalus: Moorish Spain and the Reconquista',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The struggle for Spain, from the golden age of Al-Andalus to the fall of Granada. Moorish art and science, the long Christian Reconquista, and the battles and betrayals that shaped the peninsula."]
+      },
+      {
+        id: 'knights-of-malta',
+        title: 'The Knights of Malta',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The 268 years of the Order of St John on Malta, from 1530 to 1798, and how the Knights reshaped the island’s landscape, culture and place in the Mediterranean."]
+      },
+      {
+        id: 'ancient-aegean',
+        title: 'A Journey Through the Ancient Aegean',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["The ancient Greek world through its most famous archaeological sites, from the volcanic ruins of Santorini to the sanctuary of Olympia: their architecture, and their myths."]
+      }
+    ]
+  },
+
+  /* -------------------------------------------------------------------
+     STANDALONE TALKS
+     ------------------------------------------------------------------- */
+  {
+    id: 'standalone',
+    name: 'Standalone Talks',
+    colour: '#7A4A2E',
+    intro: "Talks that don't fit neatly anywhere else, which is usually a good sign.",
+    talks: [
+      {
+        id: 'bronze-age-collapse',
+        title: 'The Bronze Age Collapse',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["Around 1200 BC, the great civilisations of the Mediterranean fell within a single generation. From the end of the Mycenaeans to the mystery of the Sea Peoples, what caused this ancient apocalypse, and the end of the first global era?"]
+      },
+      {
+        id: 'history-of-sugar',
+        title: 'The History of Sugar',
+        comingSoon: true,
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        about: ["How the sweet stuff transformed the world over 2,000 years. Now found almost everywhere, sugar was once coveted by kings and emperors, and it changed societies on every continent."]
       }
     ]
   }
 
   /* TO ADD A NEW TOPIC: copy a whole block from { to } (for example the
-     Vikings one), paste it just above this comment, put a comma after the
-     } of the topic before it, and change the details. */
+     British Isles one), paste it just above this comment, put a comma
+     after the } of the topic before it, and change the details. */
 ];
 
 
@@ -292,4 +385,4 @@ const TOPICS = [
    THE THREE TALKS SHOWN ON THE HOME PAGE
    Just list the ids of the three talks you want, in order.
    ===================================================================== */
-const FEATURED_TALKS = ['french-go-first', 'potosi', 'everything-fell-apart'];
+const FEATURED_TALKS = ['the-endurance', 'conquest-of-the-incas', 'panama-french-attempt'];
