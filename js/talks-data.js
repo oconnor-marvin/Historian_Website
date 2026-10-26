@@ -242,8 +242,7 @@ const TOPICS = [
     talks: [
       { id: 'viking-myths',          title: 'Myths about the Vikings',          comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
       { id: 'viking-atlantic-world', title: 'The Atlantic World of the Vikings', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
-      { id: 'north-sea-empire',      title: 'The North Sea Empire',             comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
-      { id: 'danish-empire',         title: 'The Danish Empire',                comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] }
+      { id: 'north-sea-empire',      title: 'The North Sea Empire',             comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] }
     ]
   },
 
@@ -270,13 +269,6 @@ const TOPICS = [
     colour: '#2F4A56',
     intro: 'Pirates, merchants, whalers and the occasional disappearance. Most of the modern world was built at sea.',
     talks: [
-      {
-        id: 'tales-of-the-atlantic',
-        title: 'Tales of the Atlantic',
-        comingSoon: true,
-        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
-        about: ["The Atlantic’s hidden past, from Viking explorers to the lost colony of Roanoke. The triumphs, tragedies and legends of those who braved its waters, some of whom never came back."]
-      },
       { id: 'golden-age-of-piracy', title: 'The Golden Age of Piracy', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
       {
         id: 'the-pirate-round',
@@ -299,6 +291,7 @@ const TOPICS = [
         length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
         about: ["From the sixteenth to the nineteenth century, trading companies built monopolies across the globe through commerce and conquest. How they changed the world, and gave rise to an economic system that still echoes today."]
       },
+      { id: 'danish-empire', title: 'The Danish Empire', comingSoon: true, length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '', about: [] },
       {
         id: 'age-of-whaling',
         title: 'The Age of Whaling',
