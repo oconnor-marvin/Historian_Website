@@ -180,7 +180,7 @@ const TOPICS = [
     id: 'panama',
     name: 'The Panama Canal',
     colour: '#3F4A3C',
-    intro: 'A series of three. Watch them in order, or get the set.',
+    intro: 'How one of the greatest feats of engineering in human history came to be, told in three parts: a French failure, an American gamble, and the people who dug it.',
     talks: [
       {
         id: 'panama-french-attempt',

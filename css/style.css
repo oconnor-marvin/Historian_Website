@@ -445,7 +445,20 @@ p { margin: 0; }
 
 /* The row of topic buttons. Also sticks to the top while scrolling. */
 .topic-bar { position: sticky; top: 77px; z-index: 40; background: var(--parchment); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.topic-bar .container { display: flex; gap: 10px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; }
+.topic-bar .container {
+  display: flex; gap: 10px; overflow-x: auto; padding-top: 12px; padding-bottom: 10px;
+  /* A thin scroll bar in the site's colours (Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--khaki) transparent;
+  /* Fades the left and right edges so it's clear there's more to scroll to */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 56px), transparent 100%);
+}
+/* The same thin scroll bar for Chrome, Safari and Edge */
+.topic-bar .container::-webkit-scrollbar { height: 6px; }
+.topic-bar .container::-webkit-scrollbar-track { background: transparent; }
+.topic-bar .container::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+.topic-bar .container::-webkit-scrollbar-thumb:hover { background: var(--khaki); }
 .topic-button { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--khaki); border-radius: 999px; background: var(--paper); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 16px; white-space: nowrap; }
 .topic-button:hover { background: #E6DCC4; color: var(--ink); }
 .topic-button span { font-weight: 400; color: var(--muted); }
@@ -464,6 +477,22 @@ p { margin: 0; }
 @media (max-width: 640px) {
   .topic-bar { top: 65px; }
   .photo-placeholder { min-height: 220px; }
+}
+
+/* LAPTOPS AND BIGGER: show every topic button at once (wrapping onto a
+   second row) instead of a sideways-scrolling row, which is awkward with
+   a mouse. Phones keep the swipeable row. */
+@media (min-width: 861px) {
+  .topic-bar .container {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding-bottom: 12px;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .topic-bar .container { gap: 8px; padding-top: 10px; padding-bottom: 10px; }
+  .topic-button { min-height: 38px; padding: 0 14px; font-size: 15px; }   /* a bit smaller, to fit on two rows */
+  .topic-section { scroll-margin-top: 200px; }   /* leaves room for the taller bar */
 }
 
 
