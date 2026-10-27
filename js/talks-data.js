@@ -139,7 +139,7 @@ const TOPICS = [
         id: 'conquest-of-the-incas',
         title: 'The Conquest of the Incas',
         comingSoon: true,
-        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
+        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: 'images/thumbnails/conquest-of-the-incas.jpg',
         about: ["The downfall of the Inca Empire, from Pizarro’s arrival to the final resistance. How a small band of conquistadors toppled a civilisation through ambition and betrayal, and how the Inca fought back."]
       },
       {
