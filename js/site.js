@@ -342,15 +342,12 @@ function setupCarousel() {
   const slides = Array.from(carousel.querySelectorAll('.slide'));
   const slideBox = carousel.querySelector('.slides');
   const dotBox = carousel.querySelector('.carousel-dots');
-  const pauseButton = carousel.querySelector('.carousel-pause');
   if (slides.length < 2) { carousel.querySelector('.carousel-controls').hidden = true; return; }
 
   let current = Math.max(0, slides.findIndex(function (s) { return s.classList.contains('is-active'); }));
   let timer = null;
-  let pausedByUser = false;
   // If someone's device is set to "reduce motion", don't move by itself.
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) pausedByUser = true;
+  const pausedByUser = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Make one dot per quote
   const dots = slides.map(function (slide, i) {
@@ -385,18 +382,9 @@ function setupCarousel() {
     slideBox.setAttribute('aria-live', 'polite');
   }
   function restart() { if (!pausedByUser) start(); }
-  function updatePauseButton() {
-    carousel.classList.toggle('is-paused', pausedByUser);
-    pauseButton.setAttribute('aria-label', pausedByUser ? 'Play the quotes' : 'Pause the quotes');
-  }
 
   carousel.querySelector('.carousel-prev').addEventListener('click', function () { show(current - 1); restart(); });
   carousel.querySelector('.carousel-next').addEventListener('click', function () { show(current + 1); restart(); });
-  pauseButton.addEventListener('click', function () {
-    pausedByUser = !pausedByUser;
-    updatePauseButton();
-    if (pausedByUser) stop(); else start();
-  });
 
   // Hold still while someone is pointing at it or using the keyboard inside it
   carousel.addEventListener('mouseenter', stop);
@@ -416,7 +404,6 @@ function setupCarousel() {
   });
 
   show(current);
-  updatePauseButton();
   start();
 }
 

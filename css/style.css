@@ -391,7 +391,7 @@ p { margin: 0; }
 .slide figcaption { font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--forest-label); }
 .slide figcaption::before { content: "— "; }
 
-/* Arrows, dots and pause button */
+/* Arrows and dots */
 .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
 .carousel-button {
   width: 44px; height: 44px;
@@ -401,10 +401,6 @@ p { margin: 0; }
   cursor: pointer;
 }
 .carousel-button:hover { background: var(--paper); }
-.carousel-pause { margin-left: 10px; }
-.carousel-pause .icon-play { display: none; }
-.carousel.is-paused .carousel-pause .icon-play { display: block; }
-.carousel.is-paused .carousel-pause .icon-pause { display: none; }
 
 .carousel-dots { display: flex; }
 .carousel-dot {
