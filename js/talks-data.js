@@ -138,9 +138,12 @@ const TOPICS = [
       {
         id: 'conquest-of-the-incas',
         title: 'The Conquest of the Incas',
-        comingSoon: true,
-        length: '', price: '$15', gumroad: '', trailer: 'https://www.youtube.com/watch?v=Jy2TV6vKuyI', thumbnail: 'images/thumbnails/conquest-of-the-incas.jpg',
-        about: ["The downfall of the Inca Empire, from Pizarro’s arrival to the final resistance. How a small band of conquistadors toppled a civilisation through ambition and betrayal, and how the Inca fought back."]
+        comingSoon: false,
+        length: '53 min', price: '$15', gumroad: 'https://jacobmarvin.gumroad.com/l/conquestoftheincas', trailer: 'https://www.youtube.com/watch?v=Jy2TV6vKuyI', thumbnail: 'images/thumbnails/conquest-of-the-incas.jpg',
+        about: [
+          "The downfall of the Inca Empire, from Pizarro’s arrival to the final resistance. How a small band of conquistadors toppled a civilisation through ambition and betrayal, and how the Inca fought back.",
+          "It also comes with a five-and-a-half-minute post-analysis, where I sit back and talk it through more informally."
+        ]
       },
       {
         id: 'rebel-conquistador',
