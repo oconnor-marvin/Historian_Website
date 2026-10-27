@@ -131,18 +131,19 @@ function setupMenu() {
 
 /* ---------------------------------------------------------------------
    2. HOME PAGE: CALENDAR
-   On a laptop every voyage starts open. On a phone only the first one
-   does, so the list isn't miles long; the rest open with a tap.
+   Every voyage starts closed, so the list stays short; visitors click
+   or tap a voyage to see its ports. To have them all start open
+   instead, change START_OPEN to true.
    --------------------------------------------------------------------- */
 function buildCalendar() {
   const box = document.getElementById('calendar-list');
   if (!box || typeof SAILINGS === 'undefined') return;
-  const isPhone = window.innerWidth < 760;
+  const START_OPEN = false;
   let html = '';
   SAILINGS.forEach(function (sailing, sIndex) {
     let voyagesHtml = '';
     sailing.voyages.forEach(function (voyage, vIndex) {
-      const startOpen = !isPhone || (sIndex === 0 && vIndex === 0);
+      const startOpen = START_OPEN;
       const ports = voyage.ports.map(function (p) { return '<li><span>' + safe(p) + '</span></li>'; }).join('');
       voyagesHtml += '' +
         '<details class="leg"' + (startOpen ? ' open' : '') + '>' +
