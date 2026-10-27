@@ -31,7 +31,8 @@
      part        optional, e.g. 'Part 1' for a series
      line        optional one short sentence shown under the thumbnail
      length      e.g. '50 min'
-     price       e.g. '$15'
+     price       e.g. '$15', or 'Pay what you want' for a pay-what-you-want
+                 talk (Gumroad then asks the buyer how much they'd like to pay)
      gumroad     the link to the Gumroad product page, e.g.
                  'https://jacobmarvin.gumroad.com/l/the-endurance'
      trailer     the YouTube or Vimeo link to the trailer. A normal
@@ -139,7 +140,7 @@ const TOPICS = [
         id: 'conquest-of-the-incas',
         title: 'The Conquest of the Incas',
         comingSoon: false,
-        length: '53 min', price: '$15', gumroad: 'https://jacobmarvin.gumroad.com/l/conquestoftheincas', trailer: 'https://www.youtube.com/watch?v=Jy2TV6vKuyI', thumbnail: 'images/thumbnails/conquest-of-the-incas.jpg',
+        length: '53 min', price: 'Pay what you want', gumroad: 'https://jacobmarvin.gumroad.com/l/conquestoftheincas', trailer: 'https://www.youtube.com/watch?v=Jy2TV6vKuyI', thumbnail: 'images/thumbnails/conquest-of-the-incas.jpg',
         about: [
           "The downfall of the Inca Empire, from Pizarro’s arrival to the final resistance. How a small band of conquistadors toppled a civilisation through ambition and betrayal, and how the Inca fought back.",
           "It also comes with a five-and-a-half-minute post-analysis, where I sit back and talk it through more informally."

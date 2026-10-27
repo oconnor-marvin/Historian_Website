@@ -73,6 +73,11 @@ function metaText(item, priceSuffix) {
   return [item.length, item.price ? item.price + (priceSuffix || '') : ''].filter(Boolean).join(' · ');
 }
 
+// True for a normal price like '$15'; false for words like 'Pay what you want'
+function isFixedPrice(price) {
+  return /^\s*[$£€]?\s*\d/.test(price || '');
+}
+
 // The optional one-line description under a tile (left out if empty)
 function lineHtml(item) {
   return item.line ? '<span class="tile-line">' + safe(item.line) + '</span>' : '';
@@ -198,10 +203,14 @@ function buildTalksPage() {
 
   sectionBox.innerHTML = TOPICS.map(function (topic) {
     const count = topic.talks.length + (topic.talks.length === 1 ? ' talk' : ' talks');
-    // Show prices next to the count only once at least one talk is on sale
+    // Next to the count: "Coming Soon" if nothing is on sale yet, or
+    // "$15 each" if every talk has the same fixed price. Otherwise just the count.
     const onSale = topic.talks.some(function (t) { return !t.comingSoon; });
+    const firstPrice = topic.talks[0] && topic.talks[0].price;
+    const samePrice = isFixedPrice(firstPrice) && topic.talks.every(function (t) { return t.price === firstPrice; });
     const prices = !onSale ? ' · Coming Soon'
-      : topic.bundle ? ' · $15 each, or ' + topic.bundle.price + ' for the series' : ' · $15 each';
+      : !samePrice ? ''
+      : topic.bundle ? ' · ' + firstPrice + ' each, or ' + topic.bundle.price + ' for the series' : ' · ' + firstPrice + ' each';
 
     // A topic can have a photo next to its intro (see "photo" in talks-data.js)
     let introHtml;
@@ -268,7 +277,9 @@ function buildTalkPage() {
 
   // The Buy box
   const buyLink = item.gumroad || '#';
-  let priceBlock = '<div class="price-row"><span class="price">' + safe(item.price) + '</span><span class="length">' + safe(item.length) + '</span></div>';
+  // A normal price shows big ($15); words like "Pay what you want" a bit smaller
+  const priceClass = isFixedPrice(item.price) ? 'price' : 'price price-words';
+  let priceBlock = '<div class="price-row"><span class="' + priceClass + '">' + safe(item.price) + '</span><span class="length">' + safe(item.length) + '</span></div>';
   if (isBundle) priceBlock += '<span class="tile-saving">' + safe(item.fullPrice) + ' if bought separately. You save ' + safe(item.saving) + '.</span>';
 
   let bundleNote = '';
@@ -281,7 +292,7 @@ function buildTalkPage() {
       '<div class="price-block">' + priceBlock + '</div>' +
       // Gumroad's script (loaded at the bottom of talk.html) turns this
       // link into a pop-up checkout instead of leaving the site.
-      '<a class="button button-wide" href="' + safe(buyLink) + '">' + (isBundle ? 'Buy the series' : 'Buy the talk') + '</a>' +
+      '<a class="button button-wide" href="' + safe(buyLink) + '">' + (isBundle ? 'Buy the series' : isFixedPrice(item.price) ? 'Buy the talk' : 'Get the talk') + '</a>' +
       '<p class="buy-note">After you buy, ' + (isBundle ? 'all the talks live' : 'the talk lives') + ' in your Gumroad library. Watch ' + (isBundle ? 'them' : 'it') + ' there on any device, as often as you like.</p>' +
       bundleNote +
     '</aside>';
