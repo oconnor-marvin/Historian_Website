@@ -325,9 +325,12 @@ const TOPICS = [
       {
         id: 'al-andalus',
         title: 'Al-Andalus: Moorish Spain and the Reconquista',
-        comingSoon: true,
-        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
-        about: ["The struggle for Spain, from the golden age of Al-Andalus to the fall of Granada. Moorish art and science, the long Christian Reconquista, and the battles and betrayals that shaped the peninsula."]
+        comingSoon: false,
+        length: '50 min', price: '$20', gumroad: 'https://jacobmarvin.gumroad.com/l/alandalusandthereconquista', trailer: 'https://youtu.be/tAiJw0Kopg0', thumbnail: 'images/thumbnails/al-andalus.jpg',
+        about: [
+          "The struggle for Spain, from the golden age of Al-Andalus to the fall of Granada. Moorish art and science, the long Christian Reconquista, and the battles and betrayals that shaped the peninsula.",
+          "It also comes with a ten-minute post-analysis, where I sit back and talk it through more informally."
+        ]
       },
       {
         id: 'knights-of-malta',
