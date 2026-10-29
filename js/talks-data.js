@@ -385,4 +385,4 @@ const TOPICS = [
    THE THREE TALKS SHOWN ON THE HOME PAGE
    Just list the ids of the three talks you want, in order.
    ===================================================================== */
-const FEATURED_TALKS = ['the-endurance', 'conquest-of-the-incas', 'panama-french-attempt'];
+const FEATURED_TALKS = ['conquest-of-the-incas', 'al-andalus', 'the-endurance'];
