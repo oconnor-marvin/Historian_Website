@@ -313,7 +313,7 @@ const TOPICS = [
     id: 'mediterranean',
     name: 'Spain and the Mediterranean',
     colour: '#6B5424',
-    intro: 'Romans, Moors, knights and the ancient Greek world.',
+    intro: 'Romans, Moors and knights.',
     talks: [
       {
         id: 'hispania',
@@ -338,13 +338,6 @@ const TOPICS = [
         comingSoon: true,
         length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
         about: ["The 268 years of the Order of St John on Malta, from 1530 to 1798, and how the Knights reshaped the island’s landscape, culture and place in the Mediterranean."]
-      },
-      {
-        id: 'ancient-aegean',
-        title: 'A Journey Through the Ancient Aegean',
-        comingSoon: true,
-        length: '', price: '$15', gumroad: '', trailer: '', thumbnail: '',
-        about: ["The ancient Greek world through its most famous archaeological sites, from the volcanic ruins of Santorini to the sanctuary of Olympia: their architecture, and their myths."]
       }
     ]
   },
