@@ -190,49 +190,116 @@ function buildFeatured() {
 
 
 /* ---------------------------------------------------------------------
-   4. TALKS PAGE: topic buttons + one section per topic
+   4. TALKS PAGE: the "All talks / Available now" switch, the topic
+   buttons, and one section per topic
+   - "All talks" shows everything, including Coming Soon.
+   - "Available now" hides Coming Soon talks, and hides any topic that
+     has nothing out yet.
+   - In both views, talks that are out come first within their topic
+     (except in a series, which keeps its Part 1, 2, 3 order).
+   - The page starts on DEFAULT_SHOW. Change it to 'available' to make
+     visitors land on just the talks that are out.
    --------------------------------------------------------------------- */
+const DEFAULT_SHOW = 'all';
+
 function buildTalksPage() {
   const buttonBox = document.getElementById('topic-buttons');
   const sectionBox = document.getElementById('topic-sections');
   if (!buttonBox || !sectionBox) return;
 
-  buttonBox.innerHTML = TOPICS.map(function (topic) {
-    return '<a class="topic-button" href="#' + safe(topic.id) + '">' + safe(topic.name) + ' <span>' + topic.talks.length + '</span></a>';
-  }).join('');
+  // Counts for the switch
+  const allTalks = TOPICS.reduce(function (list, t) { return list.concat(t.talks); }, []);
+  const availableCount = allTalks.filter(function (t) { return !t.comingSoon; }).length;
+  const allButton = document.querySelector('[data-show="all"]');
+  const availableButton = document.querySelector('[data-show="available"]');
+  if (allButton) allButton.querySelector('span').textContent = allTalks.length;
+  if (availableButton) availableButton.querySelector('span').textContent = availableCount;
 
-  sectionBox.innerHTML = TOPICS.map(function (topic) {
-    const count = topic.talks.length + (topic.talks.length === 1 ? ' talk' : ' talks');
-    // Next to the count: "Coming Soon" if nothing is on sale yet, or
-    // "$15 each" if every talk has the same fixed price. Otherwise just the count.
-    const onSale = topic.talks.some(function (t) { return !t.comingSoon; });
-    const firstPrice = topic.talks[0] && topic.talks[0].price;
-    const samePrice = isFixedPrice(firstPrice) && topic.talks.every(function (t) { return t.price === firstPrice; });
-    const prices = !onSale ? ' · Coming Soon'
-      : !samePrice ? ''
-      : topic.bundle ? ' · ' + firstPrice + ' each, or ' + topic.bundle.price + ' for the series' : ' · ' + firstPrice + ' each';
+  // Remember the choice in the address (talks.html?show=available), so it
+  // survives going to a talk and pressing Back, and can be shared as a link.
+  let show = new URLSearchParams(location.search).get('show') || DEFAULT_SHOW;
+  if (show !== 'available') show = 'all';
 
-    // A topic can have a photo next to its intro (see "photo" in talks-data.js)
-    let introHtml;
-    if (topic.photo || topic.photoPlaceholder) {
-      const photo = topic.photo
-        ? '<figure class="topic-photo"><img src="' + safe(topic.photo) + '" alt="' + safe(topic.photoAlt) + '" loading="lazy"></figure>'
-        : '<div class="photo-placeholder">Photo to add: Jacob on a balcony above Potosí<br>(see "photo" in js/talks-data.js)</div>';
-      introHtml = '<div class="topic-feature">' + photo + '<p class="topic-intro">' + safe(topic.intro) + '</p></div>';
-    } else {
-      introHtml = '<p class="topic-intro">' + safe(topic.intro) + '</p>';
+  function render() {
+    const onlyAvailable = show === 'available';
+
+    [allButton, availableButton].forEach(function (b) {
+      if (b) b.setAttribute('aria-pressed', b.getAttribute('data-show') === show ? 'true' : 'false');
+    });
+
+    // Work out which talks to show in each topic, and drop empty topics
+    const visible = TOPICS.map(function (topic) {
+      let talks = topic.talks.filter(function (t) { return !onlyAvailable || !t.comingSoon; });
+      if (!topic.bundle) {
+        // Talks that are out first; otherwise keep the order from talks-data.js
+        talks = talks.map(function (t, i) { return { t: t, i: i }; })
+          .sort(function (a, b) { return (a.t.comingSoon ? 1 : 0) - (b.t.comingSoon ? 1 : 0) || a.i - b.i; })
+          .map(function (x) { return x.t; });
+      }
+      const showBundle = topic.bundle && (!onlyAvailable || !topic.bundle.comingSoon);
+      return { topic: topic, talks: talks, showBundle: showBundle };
+    }).filter(function (v) { return v.talks.length || v.showBundle; });
+
+    buttonBox.innerHTML = visible.map(function (v) {
+      return '<a class="topic-button" href="#' + safe(v.topic.id) + '">' + safe(v.topic.name) + ' <span>' + v.talks.length + '</span></a>';
+    }).join('');
+
+    if (!visible.length) {
+      sectionBox.innerHTML = '<p class="topic-intro" style="padding-top: 48px">Nothing out just yet. Have a look at <button type="button" class="link-button" data-show="all">all the talks</button> to see what’s coming.</p>';
+      return;
     }
 
-    const tiles = (topic.bundle ? bundleTileHtml(topic.bundle, topic) : '') +
-      topic.talks.map(function (talk) { return talkTileHtml(talk, topic); }).join('');
+    sectionBox.innerHTML = visible.map(function (v) {
+      const topic = v.topic;
+      const n = topic.talks.length;
+      const count = n + (n === 1 ? ' talk' : ' talks');
+      // Next to the count: "Coming Soon" if nothing is on sale yet, or
+      // "$15 each" if every talk has the same fixed price. Otherwise just the count.
+      const onSale = topic.talks.some(function (t) { return !t.comingSoon; });
+      const firstPrice = topic.talks[0] && topic.talks[0].price;
+      const samePrice = isFixedPrice(firstPrice) && topic.talks.every(function (t) { return t.price === firstPrice; });
+      const prices = !onSale ? ' · Coming Soon'
+        : !samePrice ? ''
+        : topic.bundle ? ' · ' + firstPrice + ' each, or ' + topic.bundle.price + ' for the series' : ' · ' + firstPrice + ' each';
+      const headCount = onlyAvailable ? v.talks.length + ' out of ' + count + ' available' : count + prices;
 
-    return '' +
-      '<section class="topic-section" id="' + safe(topic.id) + '">' +
-        '<div class="topic-head"><h2>' + safe(topic.name) + '</h2><span>' + count + prices + '</span></div>' +
-        introHtml +
-        '<div class="talk-grid">' + tiles + '</div>' +
-      '</section>';
-  }).join('');
+      // A topic can have a photo next to its intro (see "photo" in talks-data.js)
+      let introHtml;
+      if (topic.photo || topic.photoPlaceholder) {
+        const photo = topic.photo
+          ? '<figure class="topic-photo"><img src="' + safe(topic.photo) + '" alt="' + safe(topic.photoAlt) + '" loading="lazy"></figure>'
+          : '<div class="photo-placeholder">Photo to add (see "photo" in js/talks-data.js)</div>';
+        introHtml = '<div class="topic-feature">' + photo + '<p class="topic-intro">' + safe(topic.intro) + '</p></div>';
+      } else {
+        introHtml = '<p class="topic-intro">' + safe(topic.intro) + '</p>';
+      }
+
+      const tiles = (v.showBundle ? bundleTileHtml(topic.bundle, topic) : '') +
+        v.talks.map(function (talk) { return talkTileHtml(talk, topic); }).join('');
+
+      return '' +
+        '<section class="topic-section" id="' + safe(topic.id) + '">' +
+          '<div class="topic-head"><h2>' + safe(topic.name) + '</h2><span>' + safe(headCount) + '</span></div>' +
+          introHtml +
+          '<div class="talk-grid">' + tiles + '</div>' +
+        '</section>';
+    }).join('');
+  }
+
+  // Clicking either side of the switch (or the "all the talks" link in
+  // the empty message) changes the view
+  document.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-show]');
+    if (!b) return;
+    show = b.getAttribute('data-show');
+    const url = new URL(location.href);
+    if (show === DEFAULT_SHOW) url.searchParams.delete('show'); else url.searchParams.set('show', show);
+    url.hash = '';
+    history.replaceState(null, '', url);
+    render();
+  });
+
+  render();
 
   // If someone arrived with #vikings etc. in the address, jump there now
   // that the sections exist.

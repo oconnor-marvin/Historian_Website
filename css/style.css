@@ -439,6 +439,21 @@ p { margin: 0; }
 .talks-intro h1 { font-size: clamp(36px, 4.6vw, 60px); text-wrap: balance; }
 .pricing-note { flex: 1 1 280px; max-width: 340px; display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 16px; color: var(--ink-soft); }
 
+/* The "All talks / Available now" switch above the topic buttons */
+.talk-filter-row { padding-bottom: 20px; }
+.talk-filter { display: inline-flex; padding: 4px; gap: 4px; background: var(--paper); border: 1px solid var(--khaki); border-radius: 999px; }
+.talk-filter button {
+  min-height: 40px; padding: 0 18px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  font: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
+}
+.talk-filter button span { font-weight: 400; color: var(--muted); margin-left: 4px; }
+.talk-filter button[aria-pressed="true"] { background: var(--forest); color: var(--on-dark); }
+.talk-filter button[aria-pressed="true"] span { color: var(--on-dark-soft); }
+.talk-filter button:not([aria-pressed="true"]):hover { background: #E6DCC4; }
+/* The "all the talks" link in the empty message looks like a normal link */
+.link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--link); text-decoration: underline; cursor: pointer; }
+
 /* The row of topic buttons. Also sticks to the top while scrolling. */
 .topic-bar { position: sticky; top: 77px; z-index: 40; background: var(--parchment); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .topic-bar .container {

@@ -72,6 +72,16 @@
   </div>
 </section>
 
+<!-- THE SWITCH between all talks and just the ones that are out.
+     The numbers are filled in automatically. Which one the page starts
+     on is set by DEFAULT_SHOW in js/site.js. -->
+<div class="container talk-filter-row">
+  <div class="talk-filter" role="group" aria-label="Show">
+    <button type="button" data-show="all" aria-pressed="true">All talks <span></span></button>
+    <button type="button" data-show="available" aria-pressed="false">Available now <span></span></button>
+  </div>
+</div>
+
 <!-- TOPIC BUTTONS: filled in automatically. Leave this empty box as it is. -->
 <nav class="topic-bar" aria-label="Topics">
   <div class="container" id="topic-buttons"></div>
