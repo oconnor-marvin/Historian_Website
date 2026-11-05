@@ -31,7 +31,7 @@ const SAILINGS = [
       {
         dates: '19 Nov – 5 Dec',
         title: 'Barcelona to Buenos Aires, transatlantic',
-        ports: ['Barcelona', 'Tenerife', 'Salvador', 'Rio de Janeiro', 'Montevideo', 'Buenos Aires']
+        ports: ['Barcelona', 'Tangier', 'Salvador', 'Rio de Janeiro', 'Montevideo', 'Buenos Aires']
       },
       {
         dates: '5 – 19 Dec',
