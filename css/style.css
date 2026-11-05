@@ -441,16 +441,35 @@ p { margin: 0; }
 
 /* The "All talks / Available now" switch above the topic buttons */
 .talk-filter-row { padding-bottom: 20px; }
-.talk-filter { display: inline-flex; padding: 4px; gap: 4px; background: var(--paper); border: 1px solid var(--khaki); border-radius: 999px; }
+.talk-filter { position: relative; display: inline-flex; padding: 4px; gap: 4px; background: var(--paper); border: 1px solid var(--khaki); border-radius: 999px; }
 .talk-filter button {
+  position: relative; z-index: 1;            /* sits on top of the sliding pill */
   min-height: 40px; padding: 0 18px;
   border: 0; border-radius: 999px; background: transparent; cursor: pointer;
   font: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
+  transition: color 0.3s ease, background-color 0.2s ease;
 }
-.talk-filter button span { font-weight: 400; color: var(--muted); margin-left: 4px; }
-.talk-filter button[aria-pressed="true"] { background: var(--forest); color: var(--on-dark); }
+.talk-filter button span { font-weight: 400; color: var(--muted); margin-left: 4px; transition: color 0.3s ease; }
+.talk-filter button[aria-pressed="true"] { color: var(--on-dark); }
 .talk-filter button[aria-pressed="true"] span { color: var(--on-dark-soft); }
 .talk-filter button:not([aria-pressed="true"]):hover { background: #E6DCC4; }
+
+/* The dark pill that slides behind whichever option is chosen.
+   js/site.js sets its width and position. */
+.talk-filter-pill {
+  position: absolute; top: 4px; bottom: 4px; left: 0; z-index: 0;
+  border-radius: 999px; background: var(--forest);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.talk-filter-pill.no-slide { transition: none; }   /* used when the page first loads */
+
+/* The talks fade out and back in when the view changes */
+#topic-sections, #topic-buttons { transition: opacity 0.25s ease, transform 0.25s ease; }
+#topic-sections.is-swapping, #topic-buttons.is-swapping { opacity: 0; transform: translateY(8px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .talk-filter-pill, .talk-filter button, #topic-sections, #topic-buttons { transition: none; }
+}
 /* The "all the talks" link in the empty message looks like a normal link */
 .link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--link); text-decoration: underline; cursor: pointer; }
 

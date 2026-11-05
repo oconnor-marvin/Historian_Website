@@ -220,12 +220,39 @@ function buildTalksPage() {
   let show = new URLSearchParams(location.search).get('show') || DEFAULT_SHOW;
   if (show !== 'available') show = 'all';
 
-  function render() {
-    const onlyAvailable = show === 'available';
-
+  // The dark pill that slides behind the chosen option
+  const filter = document.querySelector('.talk-filter');
+  let pill = null;
+  if (filter) {
+    pill = document.createElement('span');
+    pill.className = 'talk-filter-pill no-slide';
+    pill.setAttribute('aria-hidden', 'true');
+    filter.insertBefore(pill, filter.firstChild);
+  }
+  function movePill() {
+    const chosen = show === 'available' ? availableButton : allButton;
+    if (!pill || !chosen) return;
+    pill.style.width = chosen.offsetWidth + 'px';
+    pill.style.transform = 'translateX(' + chosen.offsetLeft + 'px)';
+  }
+  function updateSwitch() {
     [allButton, availableButton].forEach(function (b) {
       if (b) b.setAttribute('aria-pressed', b.getAttribute('data-show') === show ? 'true' : 'false');
     });
+    movePill();
+  }
+  // Keep the pill lined up if the text changes size (fonts loading, window resizing)
+  window.addEventListener('resize', function () {
+    if (pill) pill.classList.add('no-slide');
+    movePill();
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(movePill);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render() {
+    const onlyAvailable = show === 'available';
+    updateSwitch();
 
     // Work out which talks to show in each topic, and drop empty topics
     const visible = TOPICS.map(function (topic) {
@@ -291,12 +318,29 @@ function buildTalksPage() {
   document.addEventListener('click', function (e) {
     const b = e.target.closest('[data-show]');
     if (!b) return;
-    show = b.getAttribute('data-show');
+    const next = b.getAttribute('data-show');
+    if (next === show) return;
+    show = next;
     const url = new URL(location.href);
     if (show === DEFAULT_SHOW) url.searchParams.delete('show'); else url.searchParams.set('show', show);
     url.hash = '';
     history.replaceState(null, '', url);
-    render();
+
+    // Slide the pill straight away
+    if (pill) pill.classList.remove('no-slide');
+    updateSwitch();
+
+    // Fade the talks out, swap them, then fade them back in
+    if (reduceMotion) { render(); return; }
+    sectionBox.classList.add('is-swapping');
+    buttonBox.classList.add('is-swapping');
+    setTimeout(function () {
+      render();
+      requestAnimationFrame(function () {
+        sectionBox.classList.remove('is-swapping');
+        buttonBox.classList.remove('is-swapping');
+      });
+    }, 250);
   });
 
   render();
