@@ -23,6 +23,30 @@
 const SAILINGS = [
 
   {
+    region: 'Across the Atlantic to Patagonia',
+    dates: '19 November 2026 – 2 January 2027',
+    ship: 'Celebrity Equinox',
+    summary: 'Three back-to-back voyages.',
+    voyages: [
+      {
+        dates: '19 Nov – 5 Dec',
+        title: 'Barcelona to Buenos Aires, transatlantic',
+        ports: ['Barcelona', 'Tenerife', 'Salvador', 'Rio de Janeiro', 'Montevideo', 'Buenos Aires']
+      },
+      {
+        dates: '5 – 19 Dec',
+        title: 'Patagonia, round trip from Buenos Aires',
+        ports: ['Buenos Aires', 'Montevideo', 'Port Stanley', 'Cape Horn', 'Ushuaia', 'Punta Arenas (Strait of Magellan)', 'Puerto Madryn', 'Punta del Este', 'Buenos Aires']
+      },
+      {
+        dates: '19 Dec – 2 Jan',
+        title: 'Patagonia, round trip from Buenos Aires',
+        ports: ['Buenos Aires', 'Montevideo', 'Port Stanley', 'Cape Horn', 'Ushuaia', 'Punta Arenas (Strait of Magellan)', 'Puerto Madryn', 'Punta del Este', 'Buenos Aires']
+      }
+    ]
+  },
+
+  {
     region: 'Antarctica',                       // the big heading
     dates: '2 – 30 January 2027',               // shown under the heading
     ship: 'Celebrity Equinox',
